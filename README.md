@@ -54,6 +54,39 @@ airbnb/
 
 ---
 
+## 📋 Requirement & Feature Evaluation Matrix
+
+| Requirement | Status | Implementation & Verification Details |
+|---|:---:|---|
+| **Live website works** | ✅ | Deployed on Vercel: [https://airbnb-nine-jade.vercel.app](https://airbnb-nine-jade.vercel.app) |
+| **Backend works** | ✅ | Production FastAPI endpoints handling listings, search, filters, quotes, reservations, host operations, and reviews. |
+| **Listings load** | ✅ | 30 rich seed listings across global destinations with high-res photos, amenities, pricing, and ratings. |
+| **Search** | ✅ | Destination search (city/state/country), date range selector, and guest capacity filtering in `frontend/src/components/search/SearchPill.tsx`. |
+| **Filters** | ✅ | 12+ categories, price range sliders, room type selections, and amenities checkboxes in `frontend/src/components/search/FiltersModal.tsx`. |
+| **Pagination / infinite scroll** | ✅ | Responsive infinite scroll with IntersectionObserver and smooth fallback loading in `frontend/src/app/page.tsx`. |
+| **Listing detail** | ✅ | Full detail view (`/listings/[id]`) with 5-photo mosaic gallery, host profile, amenity badges, and interactive map preview. |
+| **Calendar** | ✅ | 2-month interactive availability calendar with real-time blocked date calculation in `frontend/src/components/listings/AvailabilityCalendar.tsx`. |
+| **Booking** | ✅ | End-to-end checkout flow (`/book/[listingId]`), live itemized quote calculation, payment method selection, and unique confirmation code generation. |
+| **Booking validation** | ✅ | Client-side validation + backend atomic overlap protection preventing past dates, excessive guest counts, or duplicate reservations. |
+| **My Trips** | ✅ | Reservation management page (`/trips`) with past/upcoming tabs and itemized trip detail modals (`/trips/[bookingId]`). |
+| **Booked dates blocked** | ✅ | Confirmed reservations immediately lock date intervals on the listing availability calendar, disabling selection. |
+| **Host create** | ✅ | Multi-step listing creation wizard (`/host/listings/new`) with photo upload/URL, room types, pricing, and amenities. |
+| **Host edit** | ✅ | Edit existing listing details (`/host/listings/[id]/edit`) pre-populating current attributes with instant updates. |
+| **Host delete** | ✅ | Listing deletion with confirmation modal and safety checks against active upcoming guest bookings. |
+| **Host dashboard** | ✅ | Host control centre (`/host/dashboard`) displaying revenue stats, upcoming reservations, and listing inventory management. |
+| **Wishlist** | ✅ | 1-click heart toggle on cards and detail page, saved under dedicated Wishlists page (`/wishlists`). |
+| **Reviews section** | ✅ | 6 category sub-ratings (Cleanliness, Accuracy, Communication, Location, Check-in, Value) and review submission modal. |
+| **Airbnb-like UI** | ✅ | Pixel-faithful Airbnb design system using official typography, colors (#FF385C), hover micro-animations, and mobile bottom navigation. |
+| **README** | ✅ | Comprehensive documentation with architecture, quick start, schema diagrams, design assumptions, and evaluation checklist. |
+| **Public GitHub** | ✅ | Repository: [https://github.com/aarushi2810/airbnb](https://github.com/aarushi2810/airbnb) |
+| **Deployment link** | ✅ | Primary Live URL: [https://airbnb-nine-jade.vercel.app](https://airbnb-nine-jade.vercel.app) |
+
+> **⚠️ Deployment URL Note**:  
+> - **Public Production Link**: [https://airbnb-nine-jade.vercel.app](https://airbnb-nine-jade.vercel.app) *(Publicly accessible without authentication)*  
+> - **Preview Branch URL**: `https://airbnb-6qxklqxwi-aarushis-projects-664c71ff.vercel.app/` *(Vercel deployment protection / SSO login is active on branch previews by default; evaluators should use the canonical production link above)*.
+
+---
+
 ## ⚡ Quick Start: Running the Full Stack Application
 
 ### 1. Backend Setup & Startup
