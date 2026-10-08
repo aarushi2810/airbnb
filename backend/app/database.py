@@ -10,7 +10,13 @@ so FK constraints are enforced at the DB level.
 from sqlalchemy import create_engine, event, text
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DATABASE_URL = "sqlite:///./airbnb.db"
+
+import os
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "sqlite:///./airbnb.db",
+)
 
 # `check_same_thread` must be False for SQLite + FastAPI
 engine = create_engine(
