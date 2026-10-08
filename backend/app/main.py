@@ -16,7 +16,14 @@ from app.database import Base, engine
 import app.models  # noqa: F401 — ensures all models are imported before create_all
 from app.routers import bookings, host, listings, misc, users, wishlist
 
-UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
+
+UPLOAD_DIR = os.getenv(
+
+    "UPLOAD_DIR",
+
+    os.path.join(os.path.dirname(__file__), "..", "uploads"),
+
+)
 
 
 @asynccontextmanager
