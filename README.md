@@ -80,14 +80,28 @@ npm run dev -- -p 3000
 
 ---
 
-## 📖 Deep Dive Documentation per Phase
+## 🗄️ Database Schema & Entity Relationships
 
-For comprehensive architectural design decisions, schemas, and implementation details:
-- [Phase 1: Backend Architecture & Data Models](docs/PHASE_1_BACKEND.md)
-- [Phase 2 & 3: Frontend Foundation & Global Shell](docs/PHASE_2_FRONTEND.md)
-- [Phase 5: Listing Detail Page & Availability Calendar](docs/PHASE_5_DETAIL.md)
-- [Phase 6: Booking Flow, Trips & Wishlists](docs/PHASE_6_BOOKINGS.md)
-- [Phase 7: Host Dashboard & Multi-Step Wizard](docs/PHASE_7_HOST.md)
-- [Phase 8: Polish, Coming-Soon & Error Handling](docs/PHASE_8_POLISH.md)
-- [Phase 9: Persistence & Deployment Checklist](docs/PHASE_9_PERSISTENCE.md)
+The SQLite database (`backend/airbnb.db`) is structured with relational integrity using SQLAlchemy 2.0:
+
+- **`User`**: `id`, `email`, `name`, `avatar_url`, `bio`, `role` (`"guest"` / `"host"`), `is_superhost`, `response_rate`, `created_at`
+- **`Listing`**: `id`, `host_id` (FK $\rightarrow$ `users.id`), `title`, `description`, `property_type`, `room_type`, `category_id` (FK $\rightarrow$ `categories.id`), `city`, `state`, `country`, `address`, `latitude`, `longitude`, `price_per_night`, `cleaning_fee`, `max_guests`, `bedrooms`, `beds`, `bathrooms`, `status` (`"active"` / `"inactive"`), `created_at`
+- **`ListingImage`**: `id`, `listing_id` (FK $\rightarrow$ `listings.id`), `url`, `position`, `caption`
+- **`Amenity`**: `id`, `name`, `icon`, `category` (`"essentials"`, `"features"`, `"safety"`)
+- **`ListingAmenity`**: Join table linking `listing_id` and `amenity_id`
+- **`Category`**: `id`, `name`, `icon`, `slug`
+- **`Booking`**: `id`, `code` (e.g. `BK-893140`), `listing_id` (FK $\rightarrow$ `listings.id`), `guest_id` (FK $\rightarrow$ `users.id`), `check_in`, `check_out`, `guests_adults`, `guests_children`, `guests_infants`, `nightly_rate`, `cleaning_fee`, `service_fee`, `total_price`, `status` (`"confirmed"`, `"cancelled"`, `"completed"`), `created_at`
+- **`Review`**: `id`, `listing_id` (FK $\rightarrow$ `listings.id`), `author_id` (FK $\rightarrow$ `users.id`), `booking_id` (FK $\rightarrow$ `bookings.id`), `rating` (1–5), `cleanliness`, `accuracy`, `communication`, `location`, `checkin`, `value`, `comment`, `created_at`
+- **`Wishlist` & `WishlistItem`**: Saved listings associated with a user.
+
+---
+
+## 💡 Assumptions & Design Decisions
+
+1. **Authentication**: Real user authentication is mocked with a 1-click **User Switcher Modal** allowing seamless switching between hosts (e.g., *Priya Sharma*, Superhost) and guests (*Arjun Mehta*, *Emily Chen*) to demonstrate both host and traveler perspectives.
+2. **Payments**: Real payment processing is out of scope per assignment prompt. The checkout form validates credit card formatting, expiration, CVV, and ZIP client-side, computing an exact price quote via the backend.
+3. **Availability & Overlaps**: Adjacent bookings are permitted (check-out on day $X$ allows check-in on day $X$). Confirmed bookings block dates immediately on both the calendar and checkout; cancellations release dates atomically.
+4. **Geolocation**: Uses latitude/longitude coordinates with visual map previews.
+5. **Placeholder Features**: Features like Experiences, Language/Currency settings, and Messaging render dedicated "Coming Soon" states.
+
 
