@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #FF385C;
+  --color-brand-dark: #E31C5F;
+  --color-airbnb-text: #222222;
+  --color-airbnb-muted: #717171;
+  --color-airbnb-border: #DDDDDD;
+  --color-airbnb-surface: #F7F7F7;
+
+  --shadow-search: 0 2px 4px rgba(0, 0, 0, 0.18);
+  --shadow-dropdown: 0 6px 16px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.08);
+
+  --radius-card: 0.75rem;
+}
+
+:root {
+  --brand: #FF385C;
+  --brand-dark: #E31C5F;
+  --text-primary: #222222;
+  --text-muted: #717171;
+  --border-subtle: #DDDDDD;
+  --surface-light: #F7F7F7;
+}
+
+body {
+  color: #222222;
+  background-color: #ffffff;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom Airbnb container utility */
+.airbnb-container {
+  width: 100%;
+  max-width: 1760px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem; /* px-6 mobile */
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .airbnb-container {
+    padding-left: 5rem; /* px-20 desktop */
+    padding-right: 5rem;
+  }
+}
