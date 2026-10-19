@@ -33,10 +33,10 @@ export default function WishlistsPage() {
       return;
     }
 
-    const items = (Array.isArray(wishlist) ? wishlist : wishlist?.items || []) as WishlistItem[];
+    const items = (Array.isArray(wishlist) ? wishlist : (wishlist as any)?.items || []) as any[];
     const itemSummaries = items
-      .map((it) => it.listing)
-      .filter((l): l is ListingSummary => Boolean(l));
+      .map((it) => it.listing || it)
+      .filter((l): l is ListingSummary => Boolean(l && l.id));
 
     setListings(itemSummaries);
   }, [currentUser, wishlist]);
