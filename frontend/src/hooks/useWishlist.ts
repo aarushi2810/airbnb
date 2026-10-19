@@ -22,7 +22,8 @@ export function useWishlist() {
       setIsLoading(true);
       const data = await api.wishlist.get();
       setWishlist(data);
-      const ids = new Set(data.items.map((item) => item.listing_id));
+      const items = Array.isArray(data) ? data : (data as unknown as { items?: WishlistItem[] })?.items || [];
+      const ids = new Set(items.map((item: any) => item.listing_id ?? item.id));
       setWishlistedIds(ids);
     } catch (err) {
       console.error("Failed to fetch wishlist:", err);
