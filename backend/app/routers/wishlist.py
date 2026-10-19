@@ -1,6 +1,7 @@
 """routers/wishlist.py — Wishlist toggle and retrieval."""
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
@@ -48,6 +49,32 @@ def get_wishlist(db: Session = Depends(get_db), user: User = Depends(get_require
         .order_by(WishlistItem.created_at.desc())
     ).scalars().all()
     return [_to_card(item.listing) for item in items]
+
+
+class WishlistTogglePayload(BaseModel):
+    listing_id: int
+
+
+@router.post("/toggle")
+def toggle_wishlist(
+    payload: WishlistTogglePayload,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_required_user),
+):
+    """Toggle a listing in the user's wishlist."""
+    existing = db.get(WishlistItem, (user.id, payload.listing_id))
+    if existing:
+        db.delete(existing)
+        db.commit()
+        return {"wishlisted": False, "listing_id": payload.listing_id}
+
+    listing = db.get(Listing, payload.listing_id)
+    if not listing:
+        raise HTTPException(status_code=404, detail="Listing not found")
+
+    db.add(WishlistItem(user_id=user.id, listing_id=payload.listing_id))
+    db.commit()
+    return {"wishlisted": True, "listing_id": payload.listing_id}
 
 
 @router.post("/{listing_id}", status_code=201)
