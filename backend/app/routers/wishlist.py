@@ -47,7 +47,7 @@ def get_wishlist(db: Session = Depends(get_db), user: User = Depends(get_require
         .options(joinedload(WishlistItem.listing).joinedload(Listing.images))
         .where(WishlistItem.user_id == user.id)
         .order_by(WishlistItem.created_at.desc())
-    ).scalars().all()
+    ).scalars().unique().all()
     return [_to_card(item.listing) for item in items]
 
 
