@@ -90,3 +90,28 @@ def test_availability_endpoint(client, seed_data):
     )
     assert r.status_code == 200
     assert r.json() == []
+
+
+def test_wishlist_toggle(client, seed_data):
+    """POST /api/wishlist/toggle saves and removes a listing."""
+    listing = seed_data["listing"]
+    guest = seed_data["guest"]
+
+    # Toggle ON
+    r = client.post(
+        "/api/wishlist/toggle",
+        json={"listing_id": listing.id},
+        headers={"X-User-Id": str(guest.id)},
+    )
+    assert r.status_code == 200
+    assert r.json()["wishlisted"] is True
+
+    # Toggle OFF
+    r2 = client.post(
+        "/api/wishlist/toggle",
+        json={"listing_id": listing.id},
+        headers={"X-User-Id": str(guest.id)},
+    )
+    assert r2.status_code == 200
+    assert r2.json()["wishlisted"] is False
+
