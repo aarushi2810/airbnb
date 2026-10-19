@@ -33,27 +33,8 @@ export function useWishlist() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (!currentUser) return;
-    let isMounted = true;
-
-    api.wishlist
-      .get()
-      .then((data) => {
-        if (!isMounted) return;
-        const items = Array.isArray(data) ? data : (data as { items?: WishlistItem[] })?.items || [];
-        const ids = new Set(items.map((item) => (item.listing_id ?? (item as unknown as { id: number }).id)));
-        setWishlistedIds(ids);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch wishlist:", err);
-        if (isMounted) setIsLoading(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [currentUser]);
+    fetchWishlist();
+  }, [fetchWishlist]);
 
   const toggleWishlist = useCallback(
     async (listingId: number) => {
